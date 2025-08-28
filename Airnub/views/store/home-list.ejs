@@ -1,0 +1,41 @@
+<%- include('../partials/head') %>
+<link rel="stylesheet" href="output.css">
+</head>
+<body>
+  <%- include('../partials/header') %>
+  <div class="min-h-screen w-full py-16 bg-gradient-to-b from-red-200 to-gray-100 font-serif shadow-lg mt-7">
+    <div class="max-w-6xl mx-auto py-12  px-6" >
+      <h3 class="text-3xl font-bold text-center text-red-600 mb-10">
+        Here Our Registered Homes:
+      </h3>
+
+      <div class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        
+        <% registeredHomes.forEach(home => { %>
+          
+          <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200 hover:shadow-2xl transition duration-300 flex flex-col" >
+            <a href="" class="block group"></a>
+              <img src="<%= home.photoUrl %>" alt="<%= home.houseName %>" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+              <div class="p-4">
+                <h4 class="text-xl font-semibold text-gray-800 group-hover:text-cyan-600"><%= home.houseName %></h4>
+                <p class="text-gray-500 text-sm"><%= home.city %></p>
+
+                <div class="flex justify-between items-center mt-2">
+                  <span class="text-lg font-bold text-red-600">&#x20B9 <%= home.prices %>/night</span>
+                  <span class="text-yellow-500 px-2 py-1 rounded-lg text-base">
+                    <%= home.rating %> &#11088
+                  </span>
+                </div>
+              </div>
+            </a>
+            <div class="p-4 border-t border-gray-200 flex gap-2">
+              <a href="/homes/<%= home.id %>" class="flex-1 text-center bg-blue-600 text-white py-2 rounded-xl font-semibold hover:bg-blue-700 transition">Details</a>
+              <a href="" class="flex-1 text-center bg-green-600 text-white py-2 rounded-xl font-semibold hover:bg-green-700 transition">Book</a>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
