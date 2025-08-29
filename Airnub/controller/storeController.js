@@ -1,3 +1,4 @@
+const Favorite = require("../Models/favorite");
 const Home = require("../Models/home");
 
 exports.getIndex = (req, res) => {
@@ -28,20 +29,39 @@ exports.getBookings = (req, res) => {
 };
 
 exports.getFavotites = (req, res) => {
-   Home.fetchAll((registeredHomes) => {
-     res.render("store/favorites", {
-       pageTitle: "Airnub / favorites",
-       registeredHomes: registeredHomes,
-       currPage: "Favorites",
-     });
-   });
+  Favorite.getFavorites((favorites) => {
+    Home.fetchAll((registeredHomes) => {
+      const favHomes = registeredHomes.filter(home => favorites.includes(home.id));
+      res.render("store/favorites", {
+        pageTitle: "Airnub / favorites",
+        favoriteHomes: favHomes,
+        currPage: "Favorites",
+      });
+    });
+  });
 };
 
 exports.getHomeDetails = (req, res) => {
   const homeId = req.params.homeId;
   console.log("Add Home detail page at :", homeId);
-  res.render("store/home-details", {
-    pageTitle: "Airnub / Homes details",
-    currPage: "Home List",
+  Home.findById(homeId, (home) => {
+    if (!home) {
+      console.log("Home not found");
+      return res.redirect("/home-list");
+    } else {
+      res.render("store/home-details", {
+        home: home,
+        pageTitle: "Airnub / Homes details",
+        currPage: "Home List",
+      });
+    }
   });
 };
+
+exports.postAddToFav = (req, res) => {
+  console.log("Came to favorite", req.body);
+  Favorite.addToFavorites(req.body.id, err => {
+    if(err){console.log("Error while marking Favorites");}
+  })
+  return res.redirect("/favorites");
+}
