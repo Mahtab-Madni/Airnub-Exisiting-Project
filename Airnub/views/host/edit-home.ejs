@@ -1,0 +1,38 @@
+<%- include('../partials/head') %>
+<link rel="stylesheet" href="output.css">
+</head>
+<body>
+  <%- include('../partials/header') %>
+  <div class="h-screen bg-gradient-to-b from-red-200 to-gray-100 flex flex-col justify-center items-center lg:px-24 px-10 overflow-auto">
+    <div class="flex-col items-center justify-center text-center  border-4 border-gray-600 rounded-lg w-fit p-14 pb-10 pt-8 mt-12">
+      <h2 class="text-3xl fold-bold mb-7 text-red-800"><%= editing ? "Edit" : "Register" %> Your Home here :</h2>
+      <form action="/host/<%= editing ? 'edit-home' : 'add-home' %>" method="post">
+
+        <input type="hidden" value="<%= editing ? home.id : ''%>" name="id" >
+        <label for="name" class="text-lg font-semibold">House Name: </label>
+        <input type="text" name="houseName" id="name" placeholder="Enter Your House Name" value="<%= editing ? home.houseName : ''%>"
+        class="border border-gray-400 min-w-80 text-base rounded-md m-2 p-1"> <br>
+
+        <label for="location" class="text-lg font-semibold">House City: </label>
+        <input type="text" name="city" id="location" placeholder="Enter City" value="<%= editing ? home.city : ''%>"
+        class="border border-gray-400 min-w-80 text-base rounded-md m-2 p-1"> <br>
+
+        <label for="cost" class="text-lg font-semibold">Prices : </label>
+        <input type="text" name="prices" id="cost" placeholder="Enter Prices" value="<%= editing ? home.prices : ''%>"
+        class="border border-gray-400 min-w-80 text-base rounded-md m-2 p-1"> <br>
+
+        <label for="rating" class="text-lg font-semibold">House Rating: </label>
+        <input type="number" name="rating" id="rating" placeholder="Enter Rating" min="0" max="5" value="<%= editing ? home.rating : ''%>"
+        class="border border-gray-400 min-w-80 text-base rounded-md m-2 p-1 "> <br>
+
+        <label for="url" class="text-lg font-semibold">Photo Url: </label>
+        <input type="text" name="photoUrl" id="url" placeholder="Enter Photo Url" value="<%= editing ? home.photoUrl : ''%>"
+        class="border border-gray-400 min-w-80 text-base rounded-md m-2 p-1"> <br>
+
+        <input type="submit" value="<%= editing ? 'Update' : 'Submit'%>"
+        class="mt-3 block w-full px-4 py-2 rounded-lg bg-gradient-to-r from-red-600 to-red-400 font-bold cursor-pointer text-gray-100 font-serif">
+      </form>
+    </div>
+  </div>
+</body>
+</html>

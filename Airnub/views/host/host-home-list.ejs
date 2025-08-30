@@ -18,19 +18,23 @@
               <img src="<%= home.photoUrl %>" alt="<%= home.houseName %>" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
               <div class="p-4">
                 <h4 class="text-xl font-semibold text-gray-800 group-hover:text-cyan-600"><%= home.houseName %></h4>
-                <p class="text-gray-500 text-sm"><%= home.city %></p>
+                <p class="text-gray-500 text-sm mt-1"><%= home.city %></p>
 
                 <div class="flex justify-between items-center mt-2">
                   <span class="text-lg font-bold text-red-600">&#x20B9 <%= home.prices %>/night</span>
-                  <span class="text-yellow-500 px-2 py-1 rounded-lg text-base">
+                  <span class="px-2 py-1 rounded-lg text-base">
                     <%= home.rating %> &#11088
                   </span>
                 </div>
               </div>
             </a>
             <div class="p-4 border-t border-gray-200 flex gap-2">
-              <a href="" class="flex-1 text-center bg-green-600 text-white py-2 rounded-xl font-semibold hover:bg-green-700 transition">Edit</a>
-              <a href="" class="flex-1 text-center bg-red-600 text-white py-2 rounded-xl font-semibold hover:bg-red-700 transition">Delete</a>
+              <a href="/host/edit-home_<%= home.id %>?editing=true" class="flex-1 text-center bg-green-600 text-white py-2 rounded-xl font-semibold hover:bg-green-700 tansform hover:scale-105 transition">Edit</a>
+              <form action="/host/delete-home_<%= home.id %>" method="post">
+                <button type="submit" class="flex-1 text-center bg-red-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-red-700 tansform hover:scale-105 transition">
+                  Delete
+                </button>
+              </form>
             </div>
           </div>
         <% }); %>

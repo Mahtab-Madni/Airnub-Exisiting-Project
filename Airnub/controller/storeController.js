@@ -65,3 +65,13 @@ exports.postAddToFav = (req, res) => {
   })
   return res.redirect("/favorites");
 }
+
+exports.postRemoveFav = (req, res) => {
+  const homeId = req.params.homeId;
+  Favorite.removeById(homeId, (err) => {
+    if (err) {
+      console.log("Error while removing",err);
+    }
+    return res.redirect("/favorites");
+  })
+};
