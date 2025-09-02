@@ -2,7 +2,7 @@ const Favorite = require("../Models/favorite");
 const Home = require("../Models/home");
 
 exports.getIndex = (req, res) => {
-  Home.fetchAll((registeredHomes) => {
+  Home.fetchAll().then(([registeredHomes]) => {
     res.render("store/index", {
       pageTitle: "Airnub / Home",
       registeredHomes: registeredHomes,
@@ -12,11 +12,11 @@ exports.getIndex = (req, res) => {
 };
 
 exports.getHomes = (req, res) => {
-  Home.fetchAll((registeredHomes) => {
+  Home.fetchAll().then(([registeredHomes]) => {
     res.render("store/home-list", {
       pageTitle: "Airnub / Homes List",
       registeredHomes: registeredHomes,
-      currPage: "Home List"
+      currPage: "Home List",
     });
   });
 };
@@ -30,21 +30,24 @@ exports.getBookings = (req, res) => {
 
 exports.getFavotites = (req, res) => {
   Favorite.getFavorites((favorites) => {
-    Home.fetchAll((registeredHomes) => {
-      const favHomes = registeredHomes.filter(home => favorites.includes(home.id));
+    Home.fetchAll().then(([registeredHomes]) => {
+      const favHomes = registeredHomes.filter((home) =>
+        favorites.includes(home.id)
+      );
       res.render("store/favorites", {
         pageTitle: "Airnub / favorites",
         favoriteHomes: favHomes,
         currPage: "Favorites",
       });
-    });
+    })
   });
 };
 
 exports.getHomeDetails = (req, res) => {
   const homeId = req.params.homeId;
   console.log("Add Home detail page at :", homeId);
-  Home.findById(homeId, (home) => {
+  Home.findById(homeId).then(([homes]) => {
+    const home = homes[0];
     if (!home) {
       console.log("Home not found");
       return res.redirect("/home-list");

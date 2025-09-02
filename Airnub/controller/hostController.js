@@ -5,20 +5,21 @@ exports.getAddhome = (req, res, next) => {
 };
 
 exports.getHostHomes = (req, res) => {
-  Home.fetchAll((registeredHomes) => {
+  Home.fetchAll().then(([registeredHomes]) => {
     res.render("host/host-home-list", {
       pageTitle: "Airnub / Host Homes List",
       registeredHomes: registeredHomes,
       currPage: "Host Home",
     });
-  });
+  })
 };
 
 exports.getEditHomes = (req, res) => {
   const homeId = req.params.homeId;
   const query = req.query.editing === 'true';
   
-  Home.findById(homeId, home => {
+  Home.findById(homeId).then(([homes]) => {
+    const home = homes[0];
     if (!home) {
       return res.redirect("/host/host-home-list");
     }
@@ -32,26 +33,24 @@ exports.getEditHomes = (req, res) => {
 };
 
 exports.postEditHomes = (req, res, next) => {
-  const { id, houseName, prices, city, rating, photoUrl } = req.body;
-  const home = new Home(houseName, prices, city, rating, photoUrl);
-  home.id = id;
+  const { id, houseName, prices, city, rating, photoUrl , description} = req.body;
+  const home = new Home(houseName, prices, city, rating, photoUrl, description, id);
   home.save();
   return res.redirect("/host/host-home-list");
 };
 
 exports.postAddhome = (req, res, next) => {
-  const { houseName, prices, city, rating, photoUrl } = req.body;
-  const home = new Home(houseName, prices, city, rating, photoUrl);
+  const { houseName, prices, city, rating, photoUrl , description } = req.body;
+  const home = new Home(houseName, prices, city, rating, photoUrl, description );
   home.save();
   return res.redirect("/host/host-home-list");
 };
 
 exports.postDeleteHome = (req, res, next) => {
   const homeId = req.params.homeId;
-  Home.delById(homeId, err => {
-    if (err) {
-      console.log("error while deleting");
-    }
+  Home.delById(homeId).then(() => {
     return res.redirect("/host/host-home-list");
+  }).catch(err => {
+    console.log("Error while deleting", err);
   })
 };

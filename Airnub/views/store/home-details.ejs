@@ -3,7 +3,7 @@
 </head>
 <body>
   <%- include('../partials/header') %>
-  <div class="min-h-screen w-full py-16 bg-gradient-to-b from-red-200 to-gray-100 font-serif shadow-lg mt-7">
+  <div class="min-h-screen w-full py-16 bg-gradient-to-b from-red-200 to-gray-100  shadow-lg mt-7">
     <div class="max-w-5xl mx-auto p-10 bg-red-50 rounded-2xl shadow-lg" >
       <h3 class="text-3xl font-bold text-center text-red-600 mb-8 border-b-4 border-red-500 inline-block">
         Home Details of <%= home.houseName %>
@@ -16,7 +16,7 @@
 
         <div class="space-y-6 text-lg">
           <p class="font-semibold text-gray-800">Description:
-            <span class="text-gray-500">A beautiful apartment located in <%= home.city %>, perfect for families and travelers.</span>
+            <span class="text-gray-500"><%= home.description %></span>
           </p>
           <p class="text-xl font-semibold text-gray-800">
             Location: <span class="text-blue-600"><%= home.city %></span>
