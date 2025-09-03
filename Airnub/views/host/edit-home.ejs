@@ -8,7 +8,7 @@
       <form action="/host/<%= editing ? 'edit-home' : 'add-home' %>" method="post" class="bg-gradient-to-br from-red-200 to-gray-100 shadow-xl rounded-2xl p-8 w-full max-w-lg border-2 border-red-400"> 
         <h2 class="text-3xl fold-bold text-center mb-6 text-red-800"><%= editing ? "Edit" : "Register" %> Your Home here :</h2>
 
-        <input type="hidden" value="<%= editing ? home.id : ''%>" name="id" >
+        <input type="hidden" value="<%= editing ? home._id : ''%>" name="id" >
 
         <div class="mb-4">
           <label for="name" class="text-lg font-semibold block mb-2">House Name</label>
@@ -46,7 +46,7 @@
           class="w-full border border-gray-400 text-base rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400" rows="4"></textarea>
         </div>
 
-        <button type="submit" class="w-full py-3 rounded-lg bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold text-lg shadow-md hover:from-red-600 hover:to-pink-600 transition duration-200"><%= editing ? 'Update Home' : 'Submit Home'%></button>
+        <button type="submit" class="w-full py-3 rounded-lg bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold text-lg shadow-md hover:from-red-600 hover:to-pink-600 transition duration-200"><%= editing ? 'Save Changes' : 'Submit Home'%></button>
       </form>
     </div>
   </div>

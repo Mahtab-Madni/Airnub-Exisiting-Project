@@ -22,14 +22,14 @@
 
                 <div class="flex justify-between items-center mt-2">
                   <span class="text-lg font-bold text-red-600">&#x20B9 <%= home.prices %>/night</span>
-                  <span class="text-yellow-500 px-2 py-1 rounded-lg text-base">
+                  <span class=" px-2 py-1 rounded-lg text-base">
                     <%= home.rating %> &#11088
                   </span>
                 </div>
               </div>
             </a>
             <div class="p-4 border-t border-gray-200 flex gap-2">
-              <a href="/home_<%= home.id %>" class="flex-1 text-center bg-blue-600 text-white py-2 rounded-xl font-semibold hover:bg-blue-700 transform hover:scale-105 transition">Home<br>Details</a>
+              <a href="/home_<%= home._id %>" class="flex-1 text-center bg-blue-600 text-white py-2 rounded-xl font-semibold hover:bg-blue-700 transform hover:scale-105 transition">Home<br>Details</a>
               <%- include('../partials/favorite' , {home: home}) %>
             </div>
           </div>

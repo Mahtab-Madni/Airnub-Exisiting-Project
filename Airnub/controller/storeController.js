@@ -2,17 +2,17 @@ const Favorite = require("../Models/favorite");
 const Home = require("../Models/home");
 
 exports.getIndex = (req, res) => {
-  Home.fetchAll().then(([registeredHomes]) => {
+  Home.fetchAll().then((registeredHomes) => {
     res.render("store/index", {
       pageTitle: "Airnub / Home",
       registeredHomes: registeredHomes,
-      currPage : 'Index',
+      currPage: "Index",
     });
   });
 };
 
 exports.getHomes = (req, res) => {
-  Home.fetchAll().then(([registeredHomes]) => {
+  Home.fetchAll().then((registeredHomes) => {
     res.render("store/home-list", {
       pageTitle: "Airnub / Homes List",
       registeredHomes: registeredHomes,
@@ -29,25 +29,25 @@ exports.getBookings = (req, res) => {
 };
 
 exports.getFavotites = (req, res) => {
-  Favorite.getFavorites((favorites) => {
-    Home.fetchAll().then(([registeredHomes]) => {
+  Favorite.getFavorites().then(favorites => {
+    favorites = favorites.map(fav => fav.houseId)
+    Home.fetchAll().then(registeredHomes => {
       const favHomes = registeredHomes.filter((home) =>
-        favorites.includes(home.id)
+        favorites.includes(home._id.toString())
       );
       res.render("store/favorites", {
         pageTitle: "Airnub / favorites",
         favoriteHomes: favHomes,
         currPage: "Favorites",
       });
-    })
+    });
   });
 };
 
 exports.getHomeDetails = (req, res) => {
   const homeId = req.params.homeId;
   console.log("Add Home detail page at :", homeId);
-  Home.findById(homeId).then(([homes]) => {
-    const home = homes[0];
+  Home.findById(homeId).then((home) => {
     if (!home) {
       console.log("Home not found");
       return res.redirect("/home-list");
@@ -62,19 +62,25 @@ exports.getHomeDetails = (req, res) => {
 };
 
 exports.postAddToFav = (req, res) => {
-  console.log("Came to favorite", req.body);
-  Favorite.addToFavorites(req.body.id, err => {
-    if(err){console.log("Error while marking Favorites");}
-  })
-  return res.redirect("/favorites");
-}
+  const fav = new Favorite(req.body.id);
+  fav.save()
+    .then(() => { console.log('Fav added') })
+    .catch(err => {
+      if (err) {
+        console.log("Error while marking Favorite");
+      }
+    })
+    .finally(() => { return res.redirect("/favorites"); });
+};
 
 exports.postRemoveFav = (req, res) => {
   const homeId = req.params.homeId;
-  Favorite.removeById(homeId, (err) => {
-    if (err) {
-      console.log("Error while removing",err);
-    }
-    return res.redirect("/favorites");
-  })
+  Favorite.removeById(homeId)
+    .then(() => { console.log('Fav removed') })
+    .catch(err => {
+      if (err) {
+        console.log("Error while removing", err);
+      }
+    })
+    .finally(() => { return res.redirect("/favorites"); });
 };

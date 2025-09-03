@@ -1,32 +1,29 @@
-const fs = require('fs');
-const path = require('path');
-const rootDir = require('../utils/pathUtils');
-const favoriteDataPath = path.join(rootDir, "Data", "favorite.json");
+const { getDB } = require("../utils/databaseUtils");
+
 module.exports = class Favorite {
-
-  static addToFavorites(homeId, callback) {
-    Favorite.getFavorites((favorites) => {
-
-      if (favorites.includes(homeId)) {
-        callback("Home is already marked favorites");
-      } else {
-        favorites.push(homeId);
-        fs.writeFile(favoriteDataPath, JSON.stringify(favorites), callback);
-      }
-    });
+  constructor(houseId) {
+    this.houseId = houseId;
   }
 
-  static getFavorites(callback) {
-    fs.readFile(favoriteDataPath, (err, data) => {
-      callback(!err ? JSON.parse(data) : []);
-    });
+  save() {
+    const db = getDB();
+    return db.collection("favorites").findOne({ homeId: this.houseId })
+      .then(exisitingFav => {
+        if (!exisitingFav) {
+          return db.collection("favorites").insertOne(this); // creating and returning a collection (json) named favorites
+        }
+        return Promise.resolve();
+      });
+  }
+  static getFavorites() {
+    const db = getDB();
+    return db.collection("favorites").find().toArray();
   }
 
-  static removeById(delhomeId, callback) {
-    Favorite.getFavorites((homeIds) => {
-      // if (err) return callback(err);
-      homeIds = homeIds.filter(homeId => homeId !== delhomeId);
-      fs.writeFile(favoriteDataPath, JSON.stringify(homeIds), callback);
-    });
+  static removeById(delhomeId) {
+    const db = getDB();
+        return db
+          .collection("favorites")
+          .deleteOne({ houseId: delhomeId }); // matching homeId
   }
 };
