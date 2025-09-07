@@ -2,7 +2,7 @@ const Favorite = require("../Models/favorite");
 const Home = require("../Models/home");
 
 exports.getIndex = (req, res) => {
-  Home.fetchAll().then((registeredHomes) => {
+  Home.find().then((registeredHomes) => {  // mongoose provide default find function to fetch all data in the collection 
     res.render("store/index", {
       pageTitle: "Airnub / Home",
       registeredHomes: registeredHomes,
@@ -12,7 +12,8 @@ exports.getIndex = (req, res) => {
 };
 
 exports.getHomes = (req, res) => {
-  Home.fetchAll().then((registeredHomes) => {
+  Home.find().then((registeredHomes) => {
+    // mongoose provide default find function to fetch all data in the collection
     res.render("store/home-list", {
       pageTitle: "Airnub / Homes List",
       registeredHomes: registeredHomes,
@@ -29,17 +30,14 @@ exports.getBookings = (req, res) => {
 };
 
 exports.getFavotites = (req, res) => {
-  Favorite.getFavorites().then(favorites => {
-    favorites = favorites.map(fav => fav.houseId)
-    Home.fetchAll().then(registeredHomes => {
-      const favHomes = registeredHomes.filter((home) =>
-        favorites.includes(home._id.toString())
-      );
-      res.render("store/favorites", {
-        pageTitle: "Airnub / favorites",
-        favoriteHomes: favHomes,
-        currPage: "Favorites",
-      });
+  Favorite.find()
+    .populate('houseId')
+    .then(favorites => { 
+    const favHomes = favorites.map(fav => fav.houseId)
+    res.render("store/favorites", {
+      pageTitle: "Airnub / favorites",
+      favoriteHomes: favHomes,
+      currPage: "Favorites",
     });
   });
 };
@@ -47,7 +45,7 @@ exports.getFavotites = (req, res) => {
 exports.getHomeDetails = (req, res) => {
   const homeId = req.params.homeId;
   console.log("Add Home detail page at :", homeId);
-  Home.findById(homeId).then((home) => {
+  Home.findById(homeId).then((home) => {  // mongoose provide default findById function to  find data based on their id
     if (!home) {
       console.log("Home not found");
       return res.redirect("/home-list");
@@ -62,20 +60,21 @@ exports.getHomeDetails = (req, res) => {
 };
 
 exports.postAddToFav = (req, res) => {
-  const fav = new Favorite(req.body.id);
-  fav.save()
-    .then(() => { console.log('Fav added') })
-    .catch(err => {
-      if (err) {
-        console.log("Error while marking Favorite");
-      }
-    })
-    .finally(() => { return res.redirect("/favorites"); });
+  const homeId = req.body.id;
+  Favorite.findOne({ houseId: homeId }).then(fav => {
+    if (fav) {
+      console.log("Already marked favorite");
+    } else {
+      fav = new Favorite({ houseId: homeId });
+      fav.save().then(() => { console.log('Fav added') });
+    }
+    return res.redirect("/favorites");
+  }).catch(err => { console.log('Error while marking favorite') });
 };
 
 exports.postRemoveFav = (req, res) => {
   const homeId = req.params.homeId;
-  Favorite.removeById(homeId)
+  Favorite.findOneAndDelete({ houseId : homeId })
     .then(() => { console.log('Fav removed') })
     .catch(err => {
       if (err) {

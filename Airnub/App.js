@@ -1,11 +1,11 @@
 // external modules
 const express = require('express');
+const mongoose = require('mongoose');
 
 //local Modules
 const storeRouter = require('./Routes/storeRouter');
 const hostRouter  = require("./Routes/hostRouter");
 const { pageNotFound } = require('./controller/error');
-const { mongoConnect } = require('./utils/databaseUtils');
 
 const app = express();
 
@@ -20,8 +20,8 @@ app.use("/host",hostRouter);
 app.use(pageNotFound);
 
 const PORT = 3000;
-mongoConnect(() => {
+mongoose.connect('mongodb+srv://mahtab:root@airnub.bic4o66.mongodb.net/airnub?retryWrites=true&w=majority&appName=Airnub').then(() => {
   app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
   });
-})
+}).catch((err) => { console.log('Error while connecting to mongoose', err); });

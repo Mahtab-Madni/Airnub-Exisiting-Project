@@ -1,56 +1,21 @@
-const { ObjectId } = require("mongodb");
-const { getDB } = require("../utils/databaseUtils");
-
+const mongoose = require('mongoose');
+const favorite = require('./favorite');
+// const { getDB } = require("../utils/databaseUtils"); accessing mongoDB databse
 // const db = require('../utils/databaseUtils'); // accesing sql database
-module.exports = class Home {
-  constructor(houseName, prices, city, rating, photoUrl, description,_id) {
-    this.houseName = houseName;
-    this.prices = prices;
-    this.city = city;
-    this.rating = rating;
-    this.photoUrl = photoUrl;
-    this.description = description;
-    if (_id) {
-      this._id = _id;
-    }
-  }
 
-  save() {
-    const db = getDB();
-    const updateDetails = {
-      houseName : this.houseName,
-      prices : this.prices,
-      city : this.city,
-      rating : this.rating,
-      photoUrl : this.photoUrl,
-      description : this.description
-    }
-    if (this_id) { // update
-      return db
-        .collection("homes")
-        .updateOne({ _id: new ObjectId(String(this._id)) } , {$set: updateDetails});
-    } else {  // insert
-      return db.collection("homes").insertOne(this);
-    }
-  }
+const homeSchema = new mongoose.Schema({
+  houseName: { type: String, required: true },
+  prices: { type: Number, required: true },
+  city: { type: String, required: true },
+  rating: { type: Number, required: true },
+  photoUrl: { type: String },
+  description: { type: String },
+});
 
-  static fetchAll() {
-    const db = getDB();
-    return db.collection("homes").find().toArray();
-  }
+homeSchema.pre('findOneAndDelete', async function (next) {
+  const homeId = this.getQuery()._id;
+  await favorite.deleteMany({ houseId: homeId });
+  next();
+});
 
-  static findById(homeId) {
-    const db = getDB();
-    return db
-      .collection("homes")
-      .find({ _id: new ObjectId(String(homeId)) })
-      .next(); // matching homeId
-  }
-
-  static delById(homeId) {
-    const db = getDB();
-    return db
-      .collection("homes")
-      .deleteOne({ _id: new ObjectId(String(homeId)) }); // matching homeId
-  }
-};
+module.exports = mongoose.model("Home", homeSchema);
