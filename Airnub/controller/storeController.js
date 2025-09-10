@@ -7,6 +7,7 @@ exports.getIndex = (req, res) => {
       pageTitle: "Airnub / Home",
       registeredHomes: registeredHomes,
       currPage: "Index",
+      isLoggedIn : req.isLoggedIn,
     });
   });
 };
@@ -18,6 +19,7 @@ exports.getHomes = (req, res) => {
       pageTitle: "Airnub / Homes List",
       registeredHomes: registeredHomes,
       currPage: "Home List",
+      isLoggedIn: req.isLoggedIn,
     });
   });
 };
@@ -26,10 +28,11 @@ exports.getBookings = (req, res) => {
   res.render("store/bookings", {
     pageTitle: "Airnub / My Bookings",
     currPage: "Bookings",
+    isLoggedIn: req.isLoggedIn,
   });
 };
 
-exports.getFavotites = (req, res) => {
+exports.getFavorites = (req, res) => {
   Favorite.find()
     .populate('houseId')
     .then(favorites => { 
@@ -38,6 +41,7 @@ exports.getFavotites = (req, res) => {
       pageTitle: "Airnub / favorites",
       favoriteHomes: favHomes,
       currPage: "Favorites",
+      isLoggedIn: req.isLoggedIn,
     });
   });
 };
@@ -54,6 +58,7 @@ exports.getHomeDetails = (req, res) => {
         home: home,
         pageTitle: "Airnub / Homes details",
         currPage: "Home List",
+        isLoggedIn: req.isLoggedIn,
       });
     }
   });

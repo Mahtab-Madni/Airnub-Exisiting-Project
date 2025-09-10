@@ -2,7 +2,7 @@ const express = require("express");
 const {
   getHomes,
   getBookings,
-  getFavotites,
+  getFavorites,
   getIndex,
   getHomeDetails,
   postAddToFav,
@@ -16,7 +16,7 @@ storeRouter.use(express.static("public")); // allowing server to access public f
 storeRouter.get("/", getIndex);
 storeRouter.get("/home-list", getHomes);
 storeRouter.get("/bookings", getBookings);
-storeRouter.get("/favorites", getFavotites);
+storeRouter.get("/favorites", getFavorites);
 storeRouter.get("/home_:homeId", getHomeDetails);
 storeRouter.post("/favorites", postAddToFav);
 storeRouter.post("/removeFav_:homeId", postRemoveFav);

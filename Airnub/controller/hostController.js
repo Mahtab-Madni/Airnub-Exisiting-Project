@@ -1,7 +1,7 @@
 const Home = require("../Models/home");
 
 exports.getAddhome = (req, res, next) => {
-  res.render("host/edit-home", { pageTitle: "Airnub / Registration", currPage:"Add Homes" , editing : false});
+  res.render("host/edit-home", { pageTitle: "Airnub / Registration", currPage:"Add Homes" , editing : false , isLoggedIn : req.isLoggedIn});
 };
 
 exports.getHostHomes = (req, res) => {
@@ -10,6 +10,7 @@ exports.getHostHomes = (req, res) => {
       pageTitle: "Airnub / Host Homes List",
       registeredHomes: registeredHomes,
       currPage: "Host Home",
+      isLoggedIn : req.isLoggedIn,
     });
   })
 };
@@ -27,6 +28,7 @@ exports.getEditHomes = (req, res) => {
       pageTitle: "Airnub / Edit Home",
       currPage: "Host Home",
       editing: query,
+      isLoggedIn : req.isLoggedIn,
     });
   });
 };
