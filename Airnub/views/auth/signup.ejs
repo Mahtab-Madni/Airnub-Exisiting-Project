@@ -1,0 +1,105 @@
+<%- include('../partials/head') %>
+<link rel="stylesheet" href="output.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+  <%- include('../partials/header') %>
+  <div class="min-h-screen w-full py-16 bg-gradient-to-b from-red-200 to-gray-100 flex items-center justify-center mt-7">
+    <div class="backdrop-blur-md bg-white/60 rounded-3xl shadow-2xl p-1">
+      <form action="/signup" method="post" class="bg-gradient-to-br from-red-200 to-gray-100 shadow-xl rounded-2xl p-10 w-full max-w-lg border border-red-300 ">
+        <div class="flex flex-col items-center mb-6">
+          <div class="bg-red-100 rounded-full p-4 shadow-md mb-2">
+            <i class="fa-solid fa-user-plus text-red-500 text-3xl"></i>
+          </div>
+          <h2 class="text-3xl font-extrabold text-gray-800 mb-1">Create your account</h2>
+          <p class="text-gray-500 text-sm">Sign up to get started!</p>
+        </div>
+        
+        <% if (errors.length > 0) { %>
+          <div class="relative bg-gradient-to-r from-red-100 to-pink-100 border-l-4 border-red-500 text-red-800 px-6 py-4 rounded-xl shadow-md mb-6 flex items-start gap-3 animate-fade-in" role="alert">
+            <button type="button" class="absolute top-3 right-3 text-red-400 hover:text-red-600 focus:outline-none" onclick="this.parentElement.style.display='none'">
+              <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <span class="mt-1">
+              <i class="fa-solid fa-circle-exclamation text-red-500 text-xl"></i>
+            </span>
+            <div>
+              <h3 class="font-bold text-lg mb-1">Please fix the following:</h3>
+              <ul class="list-disc list-inside space-y-1">
+          <% errors.forEach(function(error) { %>
+            <li><%= error.msg %></li>
+          <% }); %>
+              </ul>
+            </div>
+          </div>
+        <% } %>
+        <div class="flex flex-col mb-3">
+          <label for="firstName" class="mb-1 text-sm font-medium">First Name</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-user"></i></span>
+            <input type="text" name="firstName" id="firstName" required  value="<%= oldInput.firstName ? oldInput.firstName : '' %>" class="pl-10 border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-red-400" placeholder="Enter your first name">
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3">
+          <label for="lastName" class="mb-1 text-sm font-medium">Last Name</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-user"></i></span>
+            <input type="text" name="lastName" id="lastName" value="<%= oldInput.lastName ? oldInput.lastName : '' %>" class="pl-10 border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-red-400" placeholder="Enter your last name">
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3">
+          <label for="email" class="mb-1 text-sm font-medium">Email</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-envelope"></i></span>
+            <input type="email" name="email" id="email" required value="<%= oldInput.email ? oldInput.email : '' %>" class="pl-10 border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-red-400" placeholder="example@pop.com">
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3">
+          <label for="password" class="mb-1 text-sm font-medium">Password</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-lock"></i></span>
+            <input type="password" name="password" id="password" required class="pl-10 border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-red-400" placeholder="Enter your password">
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3">
+          <label for="cnfrmPassword" class="mb-1 text-sm font-medium">Confirm Password</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-lock"></i></span>
+            <input type="password" name="confirmPassword" id="cnfrmPassword" required class="pl-10 border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-red-400" placeholder="Enter your password again">
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-3">
+          <label class="block mb-1 text-sm font-medium">User Type</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-users"></i></span>
+            <select name="userType"  class="pl-10 w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400 appearance-none">
+              <option value="" disabled selected>Select your user type</option>
+              <option value="guest" selected="<%= oldInput.userType === 'guest' %>">Guest</option>
+              <option value="owner" selected="<%= oldInput.userType === 'owner' %>">Owner</option>
+            </select>
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+              <i class="fa fa-chevron-down"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="flex items-center mb-4">
+          <input type="checkbox" name="terms" id="terms" required class="mr-2 accent-red-500">
+          <label for="terms" class="text-sm font-medium">I agree to the <a href="#" class="hover:underline hover:text-red-500 transition">Terms and Conditions</a> & <a href="#" class="hover:underline hover:text-red-500 transition">Privacy Policy</a></label>
+        </div>
+
+        <button type="submit" class="w-full bg-gradient-to-r from-red-400 to-red-600 text-white font-semibold px-4 py-2 rounded-xl shadow-lg hover:from-red-500 hover:to-red-700 transform hover:scale-105 transition-all duration-200 mt-2">Sign Up</button>
+
+        <p class="text-sm text-center mt-4">Already have an account?
+          <a href="/login" class="text-red-500 hover:underline">Login</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

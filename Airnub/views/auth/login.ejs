@@ -1,45 +1,40 @@
 <%- include('../partials/head') %>
 <link rel="stylesheet" href="output.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
   <%- include('../partials/header') %>
-  <div class="min-h-screen w-full py-16 bg-gradient-to-b from-red-200 to-gray-100 shadow-lg mt-7">
-    <div class="flex items-center justify-center w-full"> 
-      <form action="/<%= SignUp ? 'signup' : 'login'%>" method="post" class="bg-gradient-to-br from-red-200 to-gray-100 shadow-xl rounded-2xl p-8 w-full max-w-lg border-2 border-red-400"> 
-        <h2 class="text-2xl font-bold text-center mb-4"><%= SignUp ? "Create your Account" : "Login" %></h2>
-
-        <% if(SignUp == true) { %>
-          <div class="flex flex-col">
-          <label for="name" class="mb-1 text-sm font-medium">Name</label>
-          <input type="text" name="name" id="name" required class="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2" placeholder="Enter your name">
+  <div class="min-h-screen w-full py-16 bg-gradient-to-b from-red-200 to-gray-100 flex items-center justify-center">
+    <div class="backdrop-blur-md bg-white/60 rounded-3xl shadow-2xl p-1 mt-5">
+      <form action="/login" method="post" class="bg-gradient-to-br from-red-200 to-gray-100 shadow-xl rounded-2xl p-10 w-full max-w-lg border border-red-300">
+        <div class="flex flex-col items-center mb-6">
+          <div class="bg-red-100 rounded-full p-4 shadow-md mb-2">
+            <i class="fa-solid fa-right-to-bracket text-red-500 text-3xl"></i>
+          </div>
+          <h2 class="text-3xl font-extrabold text-gray-800 mb-1">Welcome Back</h2>
+          <p class="text-gray-500 text-sm">Login to your account</p>
         </div>
-        <% } %>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col mb-4">
           <label for="email" class="mb-1 text-sm font-medium">Email</label>
-          <input type="email" name="email" id="email" required class="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2" placeholder="Enter your email">
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-envelope"></i></span>
+            <input type="email" name="email" id="email" required class="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10" placeholder="Enter your email">
+          </div>
         </div>
 
-        <% if(SignUp == true) { %>
-          <div class="flex flex-col">
-          <label for="phoneNo" class="mb-1 text-sm font-medium">Mobile No.</label>
-          <input type="tel" name="phoneNo" id="phoneNo" required class="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2" placeholder="Enter your mobile number">
-        </div>
-        <% } %>
-
-        <div class="flex flex-col mt-2">
+        <div class="flex flex-col mb-6">
           <label for="password" class="mb-1 text-sm font-medium">Password</label>
-          <input type="password" name="password" id="password" required class="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 " placeholder="Enter your password">
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-lock"></i></span>
+            <input type="password" name="password" id="password" required class="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10" placeholder="Enter your password">
+          </div>
         </div>
 
-        <button type="submit" class="w-full bg-red-500 text-white font-semibold px-4 py-2 rounded-xl shadow-lg hover:bg-red-600 transform hover:scale-105 transition mt-3"><%= SignUp ? "Sign Up" : "Login" %></button>
+        <button type="submit" class="w-full bg-red-500 text-white font-semibold px-4 py-2 rounded-xl shadow-lg hover:bg-red-600 transform hover:scale-105 transition mt-3">Login</button>
 
-        <p class="text-sm text-center mt-2"><%= SignUp ? "Already have an account?" : "Don't have an account?" %>
-          <% if(SignUp == true) { %>
-              <a href="/login?SignUp=false" class="text-red-500 hover:underline">Login</a>
-          <% } else { %>
-            <a href="/signup?SignUp=true" class="text-red-500 hover:underline">SignUp</a>
-          <% } %>
+        <p class="text-sm text-center mt-4">Don't have an account?
+          <a href="/signup" class="text-red-500 hover:underline">SignUp</a>
         </p>
       </form>
     </div>
