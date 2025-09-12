@@ -15,7 +15,7 @@
           >Index</a
         >
       </li>
-      <% if(isLoggedIn) { %>
+      <% if(isLoggedIn) { %> <% if(user && user.userType === 'guest' ) { %>
       <li>
         <a
           href="/home-list"
@@ -37,6 +37,7 @@
           >Bookings</a
         >
       </li>
+      <% } else { %>
       <li>
         <a
           href="/host/host-home-list"
@@ -51,21 +52,28 @@
           >Add Homes</a
         >
       </li>
-      <% } %> <% if(!isLoggedIn) { %>
-      <a
-        href="/login"
-        class="ml-6 px-4 py-2 bg-white/90 text-rose-500 font-bold rounded-xl shadow hover:bg-cyan-100 hover:text-rose-600 hover:shadow-lg transform hover:scale-105 transition-all duration-200"
-        >Login</a
-      >
-      <% } else { %>
-      <form action="/logout" method="post">
-        <button
-          type="submit"
+      <% } %> <% } %> <% if(!isLoggedIn) { %>
+        <a
+          href="/login"
           class="ml-6 px-4 py-2 bg-white/90 text-rose-500 font-bold rounded-xl shadow hover:bg-cyan-100 hover:text-rose-600 hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+          >Login</a
         >
-          Logout
-        </button>
-      </form>
+      <% } else { %>
+        <% if(user && user.firstName) { %>
+          <span
+            class="ml-4 px-3 py-1 bg-transparent text-purple-800 font-semibold text-lg flex items-center"
+          >
+           Hey, <%= user.firstName %>
+          </span>
+        <% } %>
+        <form action="/logout" method="post">
+          <button
+            type="submit"
+            class="ml-3 px-4 py-2 bg-white/90 text-rose-500 font-bold rounded-xl shadow hover:bg-cyan-100 hover:text-rose-600 hover:shadow-lg transform hover:scale-105 transition-all duration-200 "
+          >
+            Logout
+          </button>
+        </form>
       <% } %>
     </ul>
   </nav>

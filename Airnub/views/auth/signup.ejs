@@ -15,24 +15,7 @@
           <p class="text-gray-500 text-sm">Sign up to get started!</p>
         </div>
         
-        <% if (errors.length > 0) { %>
-          <div class="relative bg-gradient-to-r from-red-100 to-pink-100 border-l-4 border-red-500 text-red-800 px-6 py-4 rounded-xl shadow-md mb-6 flex items-start gap-3 animate-fade-in" role="alert">
-            <button type="button" class="absolute top-3 right-3 text-red-400 hover:text-red-600 focus:outline-none" onclick="this.parentElement.style.display='none'">
-              <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-            <span class="mt-1">
-              <i class="fa-solid fa-circle-exclamation text-red-500 text-xl"></i>
-            </span>
-            <div>
-              <h3 class="font-bold text-lg mb-1">Please fix the following:</h3>
-              <ul class="list-disc list-inside space-y-1">
-          <% errors.forEach(function(error) { %>
-            <li><%= error.msg %></li>
-          <% }); %>
-              </ul>
-            </div>
-          </div>
-        <% } %>
+        <%- include('../partials/errors') %>
         <div class="flex flex-col mb-3">
           <label for="firstName" class="mb-1 text-sm font-medium">First Name</label>
           <div class="relative">
@@ -79,8 +62,8 @@
             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-users"></i></span>
             <select name="userType"  class="pl-10 w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400 appearance-none">
               <option value="" disabled selected>Select your user type</option>
-              <option value="guest" selected="<%= oldInput.userType === 'guest' %>">Guest</option>
-              <option value="owner" selected="<%= oldInput.userType === 'owner' %>">Owner</option>
+              <option value='guest' <%= oldInput.userType === 'guest' ? 'selected': ''%>>Guest</option>
+              <option value="owner" <%= oldInput.userType === 'owner' ? 'selected': ''%>>Owner</option>
             </select>
             <span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
               <i class="fa fa-chevron-down"></i>

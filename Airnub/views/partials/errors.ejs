@@ -1,0 +1,20 @@
+<% if (errors.length > 0) { %>
+  <div class="relative bg-gradient-to-r from-red-100 to-pink-100 border-l-4 border-red-500 text-red-800 px-5 py-3 rounded-xl shadow-md mb-6 flex items-start gap-3 animate-fade-in" role="alert">
+    
+    <button type="button" class="absolute top-3 right-3 text-red-400 hover:text-red-600 focus:outline-none" onclick="this.parentElement.style.display='none'">
+      <i class="fa-solid fa-xmark text-xl"></i>
+    </button>
+    
+    <span class="mt-1">
+      <i class="fa-solid fa-circle-exclamation text-red-500 text-xl"></i>
+    </span>
+    <div>
+      <h3 class="font-bold text-lg mb-1"><%= currPage === 'Sign Up' ? 'Please fix the following:' : 'Error:' %></h3>
+      <ul class="list-disc list-inside space-y-1">
+        <% errors.forEach(function(msg) { %>
+          <li><%= msg %></li>
+        <% }); %>
+      </ul>
+    </div>
+  </div>
+<% } %>

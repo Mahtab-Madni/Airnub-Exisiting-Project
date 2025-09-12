@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const favorite = require('./favorite');
+// const favorite = require('./favorite');
 // const { getDB } = require("../utils/databaseUtils"); accessing mongoDB databse
 // const db = require('../utils/databaseUtils'); // accesing sql database
 
@@ -12,10 +12,10 @@ const homeSchema = new mongoose.Schema({
   description: { type: String },
 });
 
-homeSchema.pre('findOneAndDelete', async function (next) {
-  const homeId = this.getQuery()._id;
-  await favorite.deleteMany({ houseId: homeId });
-  next();
-});
+// homeSchema.pre('findOneAndDelete', async function (next) {
+//   const homeId = this.getQuery()._id;
+//   await favorite.deleteMany({ houseId: homeId });
+//   next();
+// });
 
 module.exports = mongoose.model("Home", homeSchema);

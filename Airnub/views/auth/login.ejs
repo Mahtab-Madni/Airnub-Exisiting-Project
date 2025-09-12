@@ -15,19 +15,21 @@
           <p class="text-gray-500 text-sm">Login to your account</p>
         </div>
 
-        <div class="flex flex-col mb-4">
+        <%- include('../partials/errors') %>
+
+        <div class="flex flex-col mb-4 <%= errors.length > 0 ? 'w-full' : '' %>">
           <label for="email" class="mb-1 text-sm font-medium">Email</label>
-          <div class="relative">
+          <div class="relative <%= errors.length > 0 ? 'w-full' : '' %>">
             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-envelope"></i></span>
-            <input type="email" name="email" id="email" required class="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10" placeholder="Enter your email">
+            <input type="email" name="email" id="email" required value="<%= oldInput.email ? oldInput.email : '' %>" class="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10 <%= errors.length > 0 ? 'w-full' : '' %>" placeholder="Enter your email">
           </div>
         </div>
 
-        <div class="flex flex-col mb-6">
+        <div class="flex flex-col mb-6 <%= errors.length > 0 ? 'w-full' : '' %>">
           <label for="password" class="mb-1 text-sm font-medium">Password</label>
-          <div class="relative">
+          <div class="relative <%= errors.length > 0 ? 'w-full' : '' %>">
             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-lock"></i></span>
-            <input type="password" name="password" id="password" required class="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10" placeholder="Enter your password">
+            <input type="password" name="password" id="password" required class="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10 <%= errors.length > 0 ? 'w-full' : '' %>" placeholder="Enter your password">
           </div>
         </div>
 
