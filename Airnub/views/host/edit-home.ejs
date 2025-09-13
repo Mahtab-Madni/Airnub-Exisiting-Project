@@ -5,7 +5,8 @@
   <%- include('../partials/header') %>
   <div class="min-h-screen w-full py-16 bg-gradient-to-b from-red-200 to-gray-100 shadow-lg mt-7">
     <div class="flex items-center justify-center w-full"> 
-      <form action="/host/<%= editing ? 'edit-home' : 'add-home' %>" method="post" class="bg-gradient-to-br from-red-200 to-gray-100 shadow-xl rounded-2xl p-8 w-full max-w-lg border-2 border-red-400"> 
+      <form action="/host/<%= editing ? 'edit-home' : 'add-home' %>" method="post" enctype="multipart/form-data"
+        class="bg-gradient-to-br from-red-200 to-gray-100 shadow-xl rounded-2xl p-8 w-full max-w-lg border-2 border-red-400"> 
         <h2 class="text-3xl fold-bold text-center mb-6 text-red-800"><%= editing ? "Edit" : "Register" %> Your Home here :</h2>
 
         <input type="hidden" value="<%= editing ? home._id : ''%>" name="id" >
@@ -35,8 +36,14 @@
         </div>
 
         <div class="mb-4">
-          <label for="url" class="text-lg font-semibold block mb-2">Photo Url</label>
-          <input type="text" name="photoUrl" id="url" placeholder="Enter Photo Url" value="<%= editing ? home.photoUrl : ''%>"
+          <label for="url" class="text-lg font-semibold block mb-2">House Image</label>
+          <input type="file" name="photo" id="url" accept="image/*" value="<%= editing ? home.photo : ''%>"
+          class="w-full border border-gray-400 text-base rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400">
+        </div>
+
+        <div class="mb-4">
+          <label for="pdf" class="text-lg font-semibold block mb-2">House Rules</label>
+          <input type="file" name="rules" id="pdf" accept="application/pdf"
           class="w-full border border-gray-400 text-base rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400">
         </div>
         

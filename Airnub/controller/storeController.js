@@ -1,5 +1,7 @@
 const Home = require("../Models/home");
 const User = require("../Models/user");
+const path = require("path");
+const rootDir = require('../utils/pathUtils');
 
 exports.getIndex = (req, res) => {
   Home.find().then((registeredHomes) => {  // mongoose provide default find function to fetch all data in the collection 
@@ -65,6 +67,27 @@ exports.getHomeDetails = (req, res) => {
     }
   });
 };
+
+exports.getHouseRules = [(req, res, next) => {
+  if (!req.session.isLoggedIn) {
+    return res.redirect("/login");
+  }
+  next();
+},
+(req, res) => {
+  const homeId = req.params.homeId;
+  const rulesFileName = 'house_rules_' + homeId + '.pdf';
+  const rulesFilePath = path.join(rootDir, 'rules', rulesFileName);
+  res.download(rulesFilePath, rulesFileName, (err) => {
+    if (err) {
+      console.log('Error while downloading the file', err);
+      return res.status(500).send('Error while downloading the file');
+    }
+    console.log('File downloaded successfully');
+  });
+}
+];
+
 
 exports.postAddToFav = async (req, res) => {
   const homeId = req.body.id;

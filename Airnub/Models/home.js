@@ -8,8 +8,9 @@ const homeSchema = new mongoose.Schema({
   prices: { type: Number, required: true },
   city: { type: String, required: true },
   rating: { type: Number, required: true },
-  photoUrl: { type: String },
+  photo: { type: String },
   description: { type: String },
+  rules: { type: String },
 });
 
 // homeSchema.pre('findOneAndDelete', async function (next) {

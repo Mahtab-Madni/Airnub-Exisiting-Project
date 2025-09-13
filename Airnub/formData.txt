@@ -1,1 +1,1 @@
-{"houseName":"Taj Apartment","city":"Okhla","prices":"2000","rating":"2","photoUrl":"sadkjsa"}
+{"houseName":"Taj Apartment","city":"Okhla","prices":"2000","rating":"2","photo":"sadkjsa"}
