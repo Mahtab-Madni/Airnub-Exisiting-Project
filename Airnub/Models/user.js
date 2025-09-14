@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema({
   favorites: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Home'
+  }],
+  hostHomes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Home'
   }]
 })
 
